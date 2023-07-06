@@ -1,0 +1,66 @@
+class ModelCuaca {
+  final DateTime time;
+  final String description;
+  final double temperature;
+  final int humidity;
+  final String weatherIcon;
+  final double rainfall;
+
+  ModelCuaca({
+    required this.time,
+    required this.description,
+    required this.temperature,
+    required this.humidity,
+    required this.weatherIcon,
+    required this.rainfall,
+  });
+
+  factory ModelCuaca.fromJson(Map<String, dynamic> json) {
+    final weather = json['weather'][0];
+    final main = json['main'];
+    final rainfall = json['rain'] != null ? json['rain']['3h'] : 0;
+
+    return ModelCuaca(
+      time: DateTime.fromMillisecondsSinceEpoch(json['dt'] * 1000),
+      description: weather['description'],
+      temperature: (main['temp'] - 273.15).toDouble(),
+      humidity: main['humidity'],
+      weatherIcon: weather['icon'],
+      rainfall: rainfall.toDouble(),
+    );
+  }
+
+  String getWeatherDescription() {
+    switch (weatherIcon) {
+      case '01d':
+      case '01n':
+        return 'Cerah';
+      case '02d':
+      case '02n':
+        return 'Cerah Berawan';
+      case '03d':
+      case '03n':
+        return 'Berawan';
+      case '04d':
+      case '04n':
+        return 'Berawan Tebal';
+      case '09d':
+      case '09n':
+        return 'Hujan Ringan';
+      case '10d':
+      case '10n':
+        return 'Hujan';
+      case '11d':
+      case '11n':
+        return 'Hujan Petir';
+      case '13d':
+      case '13n':
+        return 'Salju';
+      case '50d':
+      case '50n':
+        return 'Kabut';
+      default:
+        return 'Tidak Tersedia';
+    }
+  }
+}
