@@ -87,7 +87,6 @@ class CuacaHarian extends StatelessWidget {
                                 ),
                                 Container(
                                   height: 100.0.h,
-
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: NetworkImage(
@@ -116,7 +115,7 @@ class CuacaHarian extends StatelessWidget {
                         ),
                       );
                     }
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   },
                 ),
               ),

@@ -1,6 +1,4 @@
-
 import 'dart:convert';
-
 import '../model/model_cuaca.dart';
 import 'package:http/http.dart' as http;
 

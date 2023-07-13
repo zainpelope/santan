@@ -70,5 +70,6 @@ class AppDimen {
   static double h62 = 62.0.h;
   static double h64 = 64.0.h;
   static double h68 = 68.0.h;
+  static double h130 = 130.0.h;
   static double h200 = 255.0.h;
 }

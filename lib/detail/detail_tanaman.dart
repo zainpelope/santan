@@ -3,10 +3,6 @@ import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/detail/tanaman/component/deskripsi_tanaman.dart';
 import 'package:santan/detail/tanaman/component/image_tanaman.dart';
-import 'package:santan/home/home.dart';
-import 'package:santan/saran/component/saran_button.dart';
-import 'package:santan/widget/app_button.dart';
-
 import 'tanaman/component/detail_button.dart';
 
 class DetailTanaman extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/config/theme/app_dimen.dart';
 import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/model/model_tanaman.dart';
-import '../../data/model/cuaca.dart';
+import 'package:santan/utils/extension/extension.dart';
 import '../../data/src/img_string.dart';
 import '../../model/api_tanaman.dart';
 import 'lihat_selengkapnya.dart';
@@ -35,43 +35,7 @@ class _SaranTanamanState extends State<SaranTanaman> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: AppDimen.w6,
-          ),
-          margin: EdgeInsets.symmetric(
-            horizontal: AppDimen.h14,
-          ),
-          height: 45,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: AppColor.button,
-            borderRadius: BorderRadius.circular(
-              8,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Prediksi Cuaca Selama 3 Bulan : ${Weather.cuaca[4]}",
-                style: AppFont.lihat.copyWith(
-                  color: AppColor.teks,
-                ),
-              ),
-              Text(
-                "Maka disarankan Untuk Menanam",
-                style: AppFont.lihat.copyWith(
-                  color: AppColor.teks,
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 4,
-        ),
+        4.0.height,
         Expanded(
           child: FutureBuilder<List<Tanaman>>(
             future: ApiService.fetchTanamanData(),
@@ -83,7 +47,12 @@ class _SaranTanamanState extends State<SaranTanaman> {
                   ),
                 );
               } else if (snapshot.hasError) {
-                return Text('Failed to fetch data: ${snapshot.error}');
+                return Text(
+                  'Periksa Koneksi Anda!',
+                  style: AppFont.hari.copyWith(
+                    fontStyle: FontStyle.italic,
+                  ),
+                );
               } else if (snapshot.hasData) {
                 final List<Tanaman> data = snapshot.data!;
                 return ListView.builder(
@@ -137,9 +106,7 @@ class _SaranTanamanState extends State<SaranTanaman> {
                                   width: double.infinity,
                                   child: Column(
                                     children: [
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
+                                     8.0.height,
                                       Expanded(
                                         child: Column(
                                           children: [
@@ -161,9 +128,9 @@ class _SaranTanamanState extends State<SaranTanaman> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   LihatSelengkapnya(
-                                                    DeskripsiTanaman: data[index]
-                                                        .deskripsi,
-                                                  ),
+                                                DeskripsiTanaman:
+                                                    data[index].deskripsi,
+                                              ),
                                             ),
                                           );
                                         },

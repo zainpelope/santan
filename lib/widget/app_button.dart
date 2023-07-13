@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:santan/config/theme/app_font.dart';
 
-import '../config/theme/app_font.dart';
 
 class AppButton extends StatelessWidget {
   const AppButton(

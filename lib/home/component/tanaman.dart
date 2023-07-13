@@ -3,13 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/config/theme/app_dimen.dart';
 import 'package:santan/config/theme/app_font.dart';
-
 import 'package:santan/detail/detail_tanaman.dart';
 import 'package:santan/home/component/lihat_semua_tanaman.dart';
-import 'package:santan/utils/extension/extension.dart';
-import 'package:flutter/material.dart';
 import 'package:santan/model/model_tanaman.dart';
-
 import '../../model/api_tanaman.dart';
 
 class TanamanPage extends StatefulWidget {
@@ -114,10 +110,13 @@ class _TanamanPageState extends State<TanamanPage> {
                 );
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text(
-                    'Periksa Koneksi Anda!',
-                    style: AppFont.hari.copyWith(
-                      fontStyle: FontStyle.italic,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: AppDimen.h130,),
+                    child: Text(
+                      'Periksa Koneksi Anda!',
+                      style: AppFont.hari.copyWith(
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
                   ),
                 );

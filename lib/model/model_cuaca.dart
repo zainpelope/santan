@@ -1,3 +1,6 @@
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
 class ModelCuaca {
   final DateTime time;
   final String description;
@@ -5,6 +8,8 @@ class ModelCuaca {
   final int humidity;
   final String weatherIcon;
   final double rainfall;
+  late final String day;
+  late final String date;
 
   ModelCuaca({
     required this.time,
@@ -13,8 +18,21 @@ class ModelCuaca {
     required this.humidity,
     required this.weatherIcon,
     required this.rainfall,
-  });
-
+  }) {
+    initializeDateFormatting('id_ID', null);
+    day = DateFormat.EEEE('id_ID').format(time);
+    date = DateFormat.yMMMMd('id_ID').format(time);
+  }
+  factory ModelCuaca.empty() {
+    return ModelCuaca(
+      time: DateTime.now(),
+      description: '',
+      temperature: 0.0,
+      humidity: 0,
+      weatherIcon: '',
+      rainfall: 0.0,
+    );
+  }
   factory ModelCuaca.fromJson(Map<String, dynamic> json) {
     final weather = json['weather'][0];
     final main = json['main'];
@@ -63,4 +81,6 @@ class ModelCuaca {
         return 'Tidak Tersedia';
     }
   }
+
+
 }

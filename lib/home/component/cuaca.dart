@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:santan/data/model/cuaca.dart';
+import 'package:santan/config/theme/app_color.dart';
+import 'package:santan/config/theme/app_dimen.dart';
+import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/detail/cuaca/detail_cuaca.dart';
 import 'package:santan/model/api_cuaca.dart';
 import 'package:santan/model/model_cuaca.dart';
 import 'package:santan/utils/extension/extension.dart';
-import '../../config/theme/app_color.dart';
-import '../../config/theme/app_dimen.dart';
-import '../../config/theme/app_font.dart';
+
 
 class CuacaPage extends StatefulWidget {
   const CuacaPage({Key? key}) : super(key: key);
@@ -107,9 +107,7 @@ class _CuacaPageState extends State<CuacaPage> {
               ),
             ],
           ),
-          const SizedBox(
-            height: 3,
-          ),
+          3.0.height,
           Expanded(
             child: FutureBuilder<List<ModelCuaca>>(
               future: weatherData,

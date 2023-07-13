@@ -17,6 +17,7 @@ class LihatSelengkapnya extends StatelessWidget {
           "Alasan Tanaman",
           style: AppFont.judul,
         ),
+        centerTitle: true,
         backgroundColor: AppColor.green,
       ),
       body: Column(

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/detail/cuaca/component/cuaca_harian.dart';
-
 import 'package:santan/model/model_cuaca.dart';
 import 'package:santan/utils/extension/extension.dart';
-
 import '../../config/theme/app_dimen.dart';
 import '../../config/theme/app_font.dart';
 

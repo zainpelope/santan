@@ -22,7 +22,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     super.initState();
     Timer(
       const Duration(
-        seconds: 5,
+        seconds: 3,
       ),
       () {
         setState(() {

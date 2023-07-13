@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/config/theme/app_dimen.dart';
 import 'package:santan/home/home.dart';
@@ -25,7 +26,7 @@ class SaranButton extends StatelessWidget {
           );
         },
         warna: AppColor.green,
-        height: 50,
+        height: 50.0.h,
       ),
     );
   }
