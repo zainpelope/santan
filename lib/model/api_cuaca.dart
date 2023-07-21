@@ -14,7 +14,6 @@ class ApiCuaca {
       final jsonData = json.decode(response.body);
       final List<dynamic> weatherList = jsonData['list'];
 
-      // Ambil cuaca per jam selama 24 jam
       final List<ModelCuaca> hourlyWeatherList = [];
       for (int i = 0; i < weatherList.length; i++) {
         final weatherJson = weatherList[i];

@@ -7,6 +7,8 @@ import 'package:santan/data/src/img_string.dart';
 import 'package:santan/home/home.dart';
 import 'package:santan/utils/extension/extension.dart';
 
+import 'notif.dart';
+
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});
 
@@ -22,7 +24,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
     super.initState();
     Timer(
       const Duration(
-        seconds: 3,
+        seconds: 5,
       ),
       () {
         setState(() {
@@ -31,7 +33,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomePage(),
+            builder: (context) => const AdminNotification(),
           ),
         );
       },

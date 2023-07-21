@@ -42,4 +42,10 @@ class AppFont {
     color: AppColor.search,
     fontStyle: FontStyle.italic,
   );
+  static TextStyle get form =>  TextStyle(
+    fontSize: 18.sp,
+    fontWeight: FontWeight.w600,
+    color: Colors.grey,
+    fontStyle: FontStyle.italic,
+  );
 }

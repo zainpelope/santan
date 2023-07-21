@@ -90,7 +90,6 @@ class _SaranPageState extends State<SaranPage> {
                                     "Cuaca",
                                     style: AppFont.judul,
                                   ),
-
                                 ],
                               ),
                             ),
@@ -112,7 +111,6 @@ class _SaranPageState extends State<SaranPage> {
                                     ": ${todayWeather.getWeatherDescription()}",
                                     style: AppFont.judul,
                                   ),
-
                                 ],
                               ),
                             ),
@@ -139,7 +137,7 @@ class _SaranPageState extends State<SaranPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Prediksi Cuaca Selama 3 Bulan : ${todayWeather.description}",
+                              "Prediksi Cuaca Selama 3 Bulan : ${todayWeather.getWeatherDescription()}",
                               style: AppFont.lihat.copyWith(
                                 color: AppColor.teks,
                               ),
@@ -153,7 +151,6 @@ class _SaranPageState extends State<SaranPage> {
                           ],
                         ),
                       ),
-
                     ],
                   );
                 } else {
