@@ -23,7 +23,7 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
   }
 
   Future<void> fetchData() async {
-    final List<Tanaman> data = await ApiService.fetchTanamanData();
+    final List<Tanaman> data = await ApiService.getAllPlant();
     setState(() {
       tanamanList = data;
     });
@@ -43,7 +43,7 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
         elevation: 3,
       ),
       body: FutureBuilder<List<Tanaman>>(
-        future: ApiService.fetchTanamanData(),
+        future: ApiService.getAllPlant(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
