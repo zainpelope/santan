@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:santan/model/model_tanaman.dart';
 
 class ApiService {
-  static Future<List<Tanaman>> fetchTanamanData() async {
+  static Future<List<Tanaman>> getAllPlant() async {
     final response = await http.get(
       Uri.parse(
           //testing mac kak fandy

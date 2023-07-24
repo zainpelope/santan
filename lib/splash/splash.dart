@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:santan/admin/menu/menu.dart';
 import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/data/src/img_string.dart';
-import 'package:santan/home/home.dart';
 import 'package:santan/utils/extension/extension.dart';
+import 'package:santan/utils/helper/pref_helper.dart';
 
 import 'notif.dart';
 
@@ -30,14 +31,32 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
         setState(() {
           _isLoading = false;
         });
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const AdminNotification(),
-          ),
-        );
+        _checkLogin();
       },
     );
+  }
+
+  Future<void> _checkLogin() async {
+    final token = await PrefHelper.getToken();
+    _navigateToAdmin(token ?? '');
+  }
+
+  void _navigateToAdmin(String token) {
+    if (token == '') {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AdminNotification(),
+        ),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MenuAdmin(),
+        ),
+      );
+    }
   }
 
   @override

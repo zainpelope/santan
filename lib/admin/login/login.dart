@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:santan/config/service/api_service.dart';
 import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/home/home.dart';
 import 'package:santan/utils/extension/extension.dart';
+import 'package:santan/utils/helper/pref_helper.dart';
 import 'package:santan/widget/app_button.dart';
+import 'package:santan/widget/loading_dialog.dart';
 import '../../config/theme/app_color.dart';
 import '../../config/theme/app_dimen.dart';
 import '../menu/menu.dart';
@@ -20,6 +23,52 @@ class _FormLoginState extends State<FormLogin> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isChecked = false;
   bool _passwordVisible = false;
+  final url = 'https://service.thengoding.com/users/login';
+
+  Future<void> _login() async {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    if (username.isEmpty || password.isEmpty) {
+      _showSnackBar('Username atau password tidak boleh kosong');
+    } else {
+      _showDialog();
+      final login =
+          await ApiService.login(password: password, username: username);
+      _hideDialog();
+      if (login != null) {
+        _showSnackBar('Login berhasil');
+        if (_isChecked) {
+          _saveLogin(login.token ?? '');
+        }
+        _navigateToAdmin();
+      } else {
+        _showSnackBar('Username atau password salah');
+      }
+    }
+  }
+
+  void _saveLogin(String token) {
+    PrefHelper.saveToken(token);
+  }
+
+  void _showDialog(){
+    LoadingDialog(context: context);
+  }
+
+  void _hideDialog(){
+    Navigator.pop(context);
+  }
+
+  void _navigateToAdmin() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MenuAdmin(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,23 +193,6 @@ class _FormLoginState extends State<FormLogin> {
         ),
       ),
     );
-  }
-
-  void _login() {
-    String username = _usernameController.text;
-    String password = _passwordController.text;
-
-    if (username == 'admin' && password == 'admin') {
-      _showSnackBar('Login berhasil');
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MenuAdmin(),
-        ),
-      );
-    } else {
-      _showSnackBar('Username atau password salah');
-    }
   }
 
   void _showSnackBar(String message) {

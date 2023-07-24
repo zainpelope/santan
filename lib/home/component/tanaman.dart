@@ -29,7 +29,7 @@ class _TanamanPageState extends State<TanamanPage> {
   }
 
   Future<List<Tanaman>> fetchData() async {
-    final List<Tanaman> data = await ApiService.fetchTanamanData();
+    final List<Tanaman> data = await ApiService.getAllPlant();
     setState(() {
       _tanamanList = data;
     });
