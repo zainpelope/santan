@@ -3,7 +3,6 @@ import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/config/theme/app_dimen.dart';
 import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/detail/detail_tanaman.dart';
-import 'package:santan/model/model_tanaman.dart';
 import '../../config/service/api_service.dart';
 import '../../models/tanaman/plant.dart';
 

@@ -5,7 +5,6 @@ import 'package:santan/config/theme/app_dimen.dart';
 import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/detail/detail_tanaman.dart';
 import 'package:santan/home/component/lihat_semua_tanaman.dart';
-import 'package:santan/model/model_tanaman.dart';
 import 'package:santan/models/tanaman/plant.dart';
 
 import '../../admin/login/login.dart';
@@ -97,7 +96,7 @@ class _TanamanPageState extends State<TanamanPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Jenis Tanaman",
+                  "Tanaman",
                   style: AppFont.hari,
                 ),
                 TextButton(
@@ -187,4 +186,5 @@ class _TanamanPageState extends State<TanamanPage> {
       ),
     );
   }
+
 }

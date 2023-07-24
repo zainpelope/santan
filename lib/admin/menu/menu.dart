@@ -13,6 +13,7 @@ import '../../config/theme/app_font.dart';
 class MenuAdmin extends StatefulWidget {
   const MenuAdmin({Key? key}) : super(key: key);
 
+
   @override
   State<MenuAdmin> createState() => _MenuAdminState();
 }
@@ -68,6 +69,24 @@ class _MenuAdminState extends State<MenuAdmin> {
     _requestPlants();
     super.initState();
   }
+
+  //function
+ String aku (){
+    String a = "2";
+    return a;
+ }
+ int kamu (){
+    return 2;
+ }
+ bool dia (){
+    return true;
+ }
+
+ //variable
+ int mobil = 2;
+
+
+
 
   @override
   Widget build(BuildContext context) {

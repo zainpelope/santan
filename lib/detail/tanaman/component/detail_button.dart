@@ -42,7 +42,7 @@ class _DetailButtonState extends State<DetailButton> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  const SaranPage(city: 'Pamekasan',),
+                  builder: (context) =>  const SaranPage(),
                 ),
               );
             },

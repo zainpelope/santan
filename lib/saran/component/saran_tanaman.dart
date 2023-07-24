@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/config/theme/app_dimen.dart';
 import 'package:santan/config/theme/app_font.dart';
-import 'package:santan/model/model_tanaman.dart';
+import 'package:santan/models/tanaman/plant.dart';
 import 'package:santan/utils/extension/extension.dart';
+import '../../config/service/api_service.dart';
 import '../../data/src/img_string.dart';
-import '../../model/api_tanaman.dart';
+
 import 'lihat_selengkapnya.dart';
 
 class SaranTanaman extends StatefulWidget {
@@ -16,19 +17,23 @@ class SaranTanaman extends StatefulWidget {
 }
 
 class _SaranTanamanState extends State<SaranTanaman> {
-  List<Tanaman> tanamanList = [];
+  List<Plant> _plants = [];
 
   @override
   void initState() {
     super.initState();
-    fetchData();
+    _fetchPlants();
   }
 
-  Future<void> fetchData() async {
-    final List<Tanaman> data = await ApiService.getAllPlant();
-    setState(() {
-      tanamanList = data;
-    });
+  Future<void> _fetchPlants() async {
+    try {
+      List<Plant> plants = await ApiService.getAllPlant();
+      setState(() {
+        _plants = plants;
+      });
+    } catch (e) {
+      print('Error fetching plants: $e');
+    }
   }
 
   @override
@@ -37,124 +42,104 @@ class _SaranTanamanState extends State<SaranTanaman> {
       children: [
         4.0.height,
         Expanded(
-          child: FutureBuilder<List<Tanaman>>(
-            future: ApiService.getAllPlant(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColor.green,
+          child: ListView.builder(
+            itemCount: _plants.length,
+            itemBuilder: (BuildContext context, int index) {
+              Plant plant = _plants[index];
+              return Padding(
+                padding: EdgeInsets.only(
+                  left: AppDimen.w16,
+                  right: AppDimen.w16,
+                  bottom: AppDimen.h4,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColor.button,
+                    borderRadius: BorderRadius.circular(
+                      10,
+                    ),
                   ),
-                );
-              } else if (snapshot.hasError) {
-                return Text(
-                  'Periksa Koneksi Anda!',
-                  style: AppFont.hari.copyWith(
-                    fontStyle: FontStyle.italic,
-                  ),
-                );
-              } else if (snapshot.hasData) {
-                final List<Tanaman> data = snapshot.data!;
-                return ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        left: AppDimen.w16,
-                        right: AppDimen.w16,
-                        bottom: AppDimen.h4,
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColor.button,
-                          borderRadius: BorderRadius.circular(
-                            10,
+                  height: 150,
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(
+                            4.0,
                           ),
-                        ),
-                        height: 150,
-                        width: double.infinity,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(
-                                  4.0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  plant.image ?? '',
                                 ),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        data[index].gambar,
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    borderRadius: BorderRadius.circular(
-                                      10,
-                                    ),
-                                  ),
-                                  width: double.infinity,
-                                ),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                10,
                               ),
                             ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(
-                                  4.0,
-                                ),
-                                child: Container(
-                                  color: AppColor.hari,
-                                  width: double.infinity,
+                            width: double.infinity,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(
+                            4.0,
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColor.hari,
+                              borderRadius: BorderRadius.circular(
+                                10,
+                              ),
+                            ),
+                            width: double.infinity,
+                            child: Column(
+                              children: [
+                                8.0.height,
+                                Expanded(
                                   child: Column(
                                     children: [
-                                     8.0.height,
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              data[index].nama.toUpperCase(),
-                                              style: AppFont.hari,
-                                            ),
-                                            Image.asset(
-                                              ImgString.logo,
-                                              height: 65,
-                                            ),
-                                          ],
-                                        ),
+                                      Text(
+                                        plant.name ?? '',
+                                        style: AppFont.hari,
                                       ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LihatSelengkapnya(
-                                                DeskripsiTanaman:
-                                                    data[index].deskripsi,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        child: Text(
-                                          "Lihat Selengkapnya",
-                                          style: AppFont.lihat,
-                                        ),
+                                      Image.asset(
+                                        ImgString.logo,
+                                        height: 65,
                                       ),
                                     ],
                                   ),
                                 ),
-                              ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => LihatSelengkapnya(
+                                          DeskripsiTanaman:
+                                              plant.description ?? '',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    "Lihat Selengkapnya",
+                                    style: AppFont.lihat,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    );
-                  },
-                );
-              } else {
-                return const Center(
-                  child: Text('No data available.'),
-                );
-              }
+                    ],
+                  ),
+                ),
+              );
             },
           ),
         ),

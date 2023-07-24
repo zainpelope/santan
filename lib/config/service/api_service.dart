@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:santan/models/login_model/login_model.dart';
 import 'package:santan/models/tanaman/plant.dart';
+import 'package:santan/models/weather/model.dart';
 import 'package:santan/utils/helper/pref_helper.dart';
 
 class ApiService {
@@ -51,6 +52,21 @@ class ApiService {
     }
 
     return plantList;
+  }
+
+  Future<List<WeatherModel>> fetchWeatherData() async {
+    const url = '$baseUrl/weathers';
+    final response = await http.get(
+      Uri.parse(url),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = json.decode(response.body);
+      return jsonData.map((item) => WeatherModel.fromJson(item)).toList();
+    } else {
+      throw Exception("Failed to load data from API");
+    }
   }
 
   static Future<bool> removePlant({required num id}) async {
