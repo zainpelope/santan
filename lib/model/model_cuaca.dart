@@ -55,32 +55,24 @@ class ModelCuaca {
         return 'Cerah';
       case '02d':
       case '02n':
-        return 'Cerah Berawan';
+        return 'Cerah ';
       case '03d':
       case '03n':
         return 'Berawan';
       case '04d':
       case '04n':
-        return 'Berawan Tebal';
+        return 'Berawan ';
       case '09d':
       case '09n':
-        return 'Hujan Ringan';
+        return 'Gerimis';
       case '10d':
       case '10n':
         return 'Hujan';
       case '11d':
       case '11n':
-        return 'Hujan Petir';
-      case '13d':
-      case '13n':
-        return 'Salju';
-      case '50d':
-      case '50n':
-        return 'Kabut';
+        return 'Hujan ';
       default:
         return 'Tidak Tersedia';
     }
   }
-
-
 }

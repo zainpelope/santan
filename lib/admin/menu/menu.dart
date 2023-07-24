@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:santan/admin/menu/edit_tanaman.dart';
 import 'package:santan/admin/menu/tambah_tanaman.dart';
 import 'package:santan/config/service/api_service.dart';
+import 'package:santan/home/home.dart';
 import 'package:santan/models/tanaman/plant.dart';
+import 'package:santan/utils/extension/extension.dart';
 import 'package:santan/widget/loading_dialog.dart';
+import '../../config/theme/app_color.dart';
+import '../../config/theme/app_font.dart';
 
 class MenuAdmin extends StatefulWidget {
   const MenuAdmin({Key? key}) : super(key: key);
@@ -68,8 +72,27 @@ class _MenuAdminState extends State<MenuAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.bg,
       appBar: AppBar(
-        title: const Text("Daftar Tanaman"),
+        backgroundColor: AppColor.green,
+        title: Text(
+          "Daftar Tanaman",
+          style: AppFont.judul,
+        ),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePage(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _navigateToAddPlant,
@@ -98,27 +121,40 @@ class _MenuAdminState extends State<MenuAdmin> {
         children: [
           Row(
             children: [
-              Image.network(
-                plant.image ?? '',
-                width: 60,
-                height: 60,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  image: DecorationImage(
+                    image: NetworkImage(plant.image ?? ''),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                height: 100,
+                width: 100,
               ),
-              const SizedBox(
-                width: 16,
-              ),
+              15.0.width,
               Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       plant.name ?? '',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: AppColor.teks,
                       ),
                     ),
+                    10.0.height,
                     Text(
                       plant.description ?? '',
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 14,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w500,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -138,6 +174,7 @@ class _MenuAdminState extends State<MenuAdmin> {
                   child: const Text('Hapus'),
                 ),
               ),
+              10.0.width,
               Expanded(
                 child: ElevatedButton(
                   onPressed: () => _navigateToEditPlant(plant),

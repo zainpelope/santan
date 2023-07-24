@@ -6,7 +6,10 @@ import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/detail/detail_tanaman.dart';
 import 'package:santan/home/component/lihat_semua_tanaman.dart';
 import 'package:santan/model/model_tanaman.dart';
-import '../../model/api_tanaman.dart';
+import 'package:santan/models/tanaman/plant.dart';
+
+import '../../admin/login/login.dart';
+import '../../config/service/api_service.dart';
 
 class TanamanPage extends StatefulWidget {
   const TanamanPage({Key? key}) : super(key: key);
@@ -16,24 +19,23 @@ class TanamanPage extends StatefulWidget {
 }
 
 class _TanamanPageState extends State<TanamanPage> {
-  String _searchText = "";
-  String _selectedTanaman = "";
-
-  late Future<List<Tanaman>> _fetchData;
-  List<Tanaman> _tanamanList = [];
+  List<Plant> _plants = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchData = fetchData();
+    _fetchPlants();
   }
 
-  Future<List<Tanaman>> fetchData() async {
-    final List<Tanaman> data = await ApiService.getAllPlant();
-    setState(() {
-      _tanamanList = data;
-    });
-    return data;
+  Future<void> _fetchPlants() async {
+    try {
+      List<Plant> plants = await ApiService.getAllPlant();
+      setState(() {
+        _plants = plants;
+      });
+    } catch (e) {
+      print('Error fetching plants: $e');
+    }
   }
 
   @override
@@ -42,35 +44,49 @@ class _TanamanPageState extends State<TanamanPage> {
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(
-              top: AppDimen.h4,
-              left: AppDimen.w16,
-              right: AppDimen.w16,
+            padding: const EdgeInsets.only(
+              left: 8.0,
+              top: 10,
             ),
-            child: TextFormField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: AppColor.hari,
-                hintText: 'Cari Tanaman',
-                hintStyle: AppFont.pencarian,
-                suffixIcon: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.search,
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: AppColor.hari,
+                      hintText: 'Cari Tanaman',
+                      hintStyle: AppFont.pencarian,
+                      suffixIcon: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.search,
+                        ),
+                      ),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          15,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(
-                    15,
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FormLogin(),
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.person,
+                    size: 30,
                   ),
                 ),
-              ),
-              onChanged: (text) {
-                setState(() {
-                  _searchText = text.toLowerCase();
-                });
-              },
+              ],
             ),
           ),
           Padding(
@@ -101,108 +117,72 @@ class _TanamanPageState extends State<TanamanPage> {
               ],
             ),
           ),
-          FutureBuilder<List<Tanaman>>(
-            future: _fetchData,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(
-                  color: AppColor.hari,
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: AppDimen.h130,),
-                    child: Text(
-                      'Periksa Koneksi Anda!',
-                      style: AppFont.hari.copyWith(
-                        fontStyle: FontStyle.italic,
+          SizedBox(
+            height: 345.0.h,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _plants.length,
+              itemBuilder: (context, index) {
+                Plant plant = _plants[index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailTanaman(
+                          namePlant: plant.name ?? '',
+                          imagePlant: plant.image ?? '',
+                          descriptionPlant: plant.description ?? '',
+                        ),
                       ),
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: AppDimen.w4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColor.hari,
+                      borderRadius: BorderRadius.circular(
+                        10.0,
+                      ),
+                    ),
+                    width: 220.0.h,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                            top: AppDimen.h4,
+                            left: AppDimen.w4,
+                            right: AppDimen.w4,
+                          ),
+                          height: 300.0.h,
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(
+                              10,
+                            ),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                plant.image ?? '',
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 12.0.h),
+                        Text(
+                          plant.name ?? '',
+                          style: AppFont.hari,
+                        ),
+                      ],
                     ),
                   ),
                 );
-              } else if (snapshot.hasData) {
-                final List<Tanaman> data = snapshot.data!;
-                return SizedBox(
-                  height: 345.0.h,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: data.length,
-                    itemBuilder: (context, index) {
-                      if (data[index]
-                          .nama
-                          .toLowerCase()
-                          .contains(_searchText)) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _selectedTanaman = data[index].nama;
-                            });
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailTanaman(
-                                  NamaTanaman: data[index].nama,
-                                  GambarTanaman: data[index].gambar,
-                                  DeskripsiTanaman: data[index].deskripsi,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            margin: EdgeInsets.symmetric(
-                              horizontal: AppDimen.w4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColor.hari,
-                              borderRadius: BorderRadius.circular(
-                                10.0,
-                              ),
-                            ),
-                            width: 220.0.h,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                    top: AppDimen.h4,
-                                    left: AppDimen.w4,
-                                    right: AppDimen.w4,
-                                  ),
-                                  height: 300.0.h,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(
-                                      10,
-                                    ),
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        data[index].gambar,
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 12.0.h),
-                                Text(
-                                  data[index].nama,
-                                  style: AppFont.hari,
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    },
-                  ),
-                );
-              } else {
-                return const Text('No data available');
-              }
-            },
+              },
+            ),
           ),
-          SizedBox(height: 10.0.h),
         ],
       ),
     );

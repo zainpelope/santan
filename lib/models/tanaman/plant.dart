@@ -1,4 +1,5 @@
 class Plant {
+
   Plant({
     this.id,
     this.uuid,

@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:santan/config/service/api_service.dart';
 import 'package:santan/widget/loading_dialog.dart';
 
+import '../../config/theme/app_color.dart';
+
 class TambahTanaman extends StatefulWidget {
   const TambahTanaman({super.key});
 
@@ -70,8 +72,11 @@ class _TambahTanamanState extends State<TambahTanaman> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.bg,
       appBar: AppBar(
+        backgroundColor: AppColor.green,
         title: const Text("Tambah Tanaman"),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -81,65 +86,67 @@ class _TambahTanamanState extends State<TambahTanaman> {
         child: Column(
           children: [
             Expanded(
-              child: Column(
-                children: [
-                  InkWell(
-                    onTap: _pickImage,
-                    child: Container(
-                      child: _image == null
-                          ? const Center(
-                              child: Text('Pilih Gambar'),
-                            )
-                          : Image.file(
-                              File(
-                                _image?.path ?? '',
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: _pickImage,
+                      child: Container(
+                        child: _image == null
+                            ? const Center(
+                                child: Text('Pilih Gambar'),
+                              )
+                            : Image.file(
+                                File(
+                                  _image?.path ?? '',
+                                ),
+                                width: 124.w,
+                                height: 124.h,
+                                fit: BoxFit.cover,
                               ),
-                              width: 124.w,
-                              height: 124.h,
-                              fit: BoxFit.cover,
-                            ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  TextFormField(
-                    controller: nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Nama Tanaman',
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  TextFormField(
-                    controller: descriptionController,
-                    decoration: const InputDecoration(
-                      labelText: 'Deskripsi',
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  DropdownButtonFormField<String>(
-                    value: _selectedSeason,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedSeason = value ?? '';
-                      });
-                    },
-                    items: const [
-                      DropdownMenuItem(
-                        value: 'Musim Hujan',
-                        child: Text('Musim Hujan'),
                       ),
-                      DropdownMenuItem(
-                        value: 'Musim Kemarau',
-                        child: Text('Musim Kemarau'),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    TextFormField(
+                      controller: nameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Nama Tanaman',
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    TextFormField(
+                      controller: descriptionController,
+                      decoration: const InputDecoration(
+                        labelText: 'Deskripsi',
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    DropdownButtonFormField<String>(
+                      value: _selectedSeason,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedSeason = value ?? '';
+                        });
+                      },
+                      items: const [
+                        DropdownMenuItem(
+                          value: 'Musim Hujan',
+                          child: Text('Musim Hujan'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Musim Kemarau',
+                          child: Text('Musim Kemarau'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             ElevatedButton(

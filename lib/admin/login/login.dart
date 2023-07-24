@@ -52,19 +52,19 @@ class _FormLoginState extends State<FormLogin> {
     PrefHelper.saveToken(token);
   }
 
-  void _showDialog(){
+  void _showDialog() {
     LoadingDialog(context: context);
   }
 
-  void _hideDialog(){
+  void _hideDialog() {
     Navigator.pop(context);
   }
 
   void _navigateToAdmin() {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const MenuAdmin(),
+        builder: (context) => MenuAdmin(),
       ),
     );
   }

@@ -3,6 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:santan/splash/splash.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+
+import 'home/home.dart';
+
 void main() {
   initializeDateFormatting('id_ID', null).then((_) {
     runApp(
@@ -20,11 +23,11 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return const MaterialApp(
+        return  MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Saran Tanaman',
+          //home: HomePage(),
           home: SplashScreenPage(),
-          //home: Deposito(),
         );
       },
     );

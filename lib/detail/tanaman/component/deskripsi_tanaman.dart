@@ -5,9 +5,9 @@ import 'package:santan/config/theme/app_font.dart';
 import '../../../config/theme/app_dimen.dart';
 
 class TanamanDeskripsi extends StatelessWidget {
-  const TanamanDeskripsi({Key? key, required this.DeskripsiTanaman})
+  const TanamanDeskripsi({Key? key, required this.descriptionPlant})
       : super(key: key);
-  final String DeskripsiTanaman;
+  final String descriptionPlant;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class TanamanDeskripsi extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      DeskripsiTanaman,
+                      descriptionPlant,
                       style: AppFont.desc,textAlign: TextAlign.justify,
                     ),
                   ],

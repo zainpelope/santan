@@ -5,6 +5,7 @@ import 'package:santan/admin/menu/menu.dart';
 import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/data/src/img_string.dart';
+import 'package:santan/home/home.dart';
 import 'package:santan/utils/extension/extension.dart';
 import 'package:santan/utils/helper/pref_helper.dart';
 
@@ -53,7 +54,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const MenuAdmin(),
+          builder: (context) => const HomePage(),
         ),
       );
     }

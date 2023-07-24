@@ -3,8 +3,9 @@ import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/config/theme/app_dimen.dart';
 import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/detail/detail_tanaman.dart';
-import 'package:santan/model/api_tanaman.dart';
 import 'package:santan/model/model_tanaman.dart';
+import '../../config/service/api_service.dart';
+import '../../models/tanaman/plant.dart';
 
 class SemuaTanaman extends StatefulWidget {
   const SemuaTanaman({Key? key}) : super(key: key);
@@ -14,19 +15,23 @@ class SemuaTanaman extends StatefulWidget {
 }
 
 class _SemuaTanamanState extends State<SemuaTanaman> {
-  List<Tanaman> tanamanList = [];
+  List<Plant> _plants = [];
 
   @override
   void initState() {
     super.initState();
-    fetchData();
+    _fetchPlants();
   }
 
-  Future<void> fetchData() async {
-    final List<Tanaman> data = await ApiService.getAllPlant();
-    setState(() {
-      tanamanList = data;
-    });
+  Future<void> _fetchPlants() async {
+    try {
+      List<Plant> plants = await ApiService.getAllPlant();
+      setState(() {
+        _plants = plants;
+      });
+    } catch (e) {
+      print('Error fetching plants: $e');
+    }
   }
 
   @override
@@ -42,7 +47,7 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
         ),
         elevation: 3,
       ),
-      body: FutureBuilder<List<Tanaman>>(
+      body: FutureBuilder<List<Plant>>(
         future: ApiService.getAllPlant(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -61,31 +66,31 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
               ),
             );
           } else if (snapshot.hasData) {
-            final List<Tanaman> data = snapshot.data!;
+            final List<Plant> data = snapshot.data!;
             return GridView.builder(
               itemCount: data.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DetailTanaman(
-                          NamaTanaman: data[index].nama,
-                          GambarTanaman: data[index].gambar,
-                          DeskripsiTanaman: data[index].deskripsi,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Card(
-                    color: AppColor.hari,
-                    child: Column(
-                      children: [
-                        Expanded(
+                return Card(
+                  color: AppColor.hari,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailTanaman(
+                                  namePlant: data[index].name ?? '',
+                                  imagePlant:data[index].image ?? '',
+                                  descriptionPlant: data[index].description ?? '',
+                                ),
+                              ),
+                            );
+                          },
                           child: Container(
                             margin: EdgeInsets.only(
                               top: AppDimen.h2,
@@ -97,7 +102,7 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: NetworkImage(
-                                  data[index].gambar,
+                                  data[index].image??'',
                                 ),
                                 fit: BoxFit.cover,
                               ),
@@ -107,13 +112,13 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
                             ),
                           ),
                         ),
-                        Text(
-                          data[index].nama,
-                          style: AppFont.hari,
-                        ),
-                        const SizedBox(height: 5.0),
-                      ],
-                    ),
+                      ),
+                      Text(
+                        data[index].name??"",
+                        style: AppFont.hari,
+                      ),
+                      const SizedBox(height: 5.0),
+                    ],
                   ),
                 );
               },

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ImageTanaman extends StatelessWidget {
-  const ImageTanaman({Key? key, required this.GambarTanaman}) : super(key: key);
-  final String GambarTanaman;
+  const ImageTanaman({Key? key, required this.imagePlant}) : super(key: key);
+  final String imagePlant;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class ImageTanaman extends StatelessWidget {
       decoration: BoxDecoration(
         image: DecorationImage(
           image: NetworkImage(
-            GambarTanaman,
+            imagePlant,
           ),
           fit: BoxFit.cover,
         ),

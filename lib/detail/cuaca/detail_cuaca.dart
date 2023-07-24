@@ -25,7 +25,7 @@ class DetailCuaca extends StatelessWidget {
       backgroundColor: AppColor.green,
       body: Column(
         children: [
-          20.0.height,
+          30.0.height,
           Expanded(
             child: Column(
               children: [

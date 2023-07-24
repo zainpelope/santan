@@ -6,14 +6,14 @@ import 'package:santan/detail/tanaman/component/image_tanaman.dart';
 import 'tanaman/component/detail_button.dart';
 
 class DetailTanaman extends StatelessWidget {
-  final String NamaTanaman;
-  final String GambarTanaman;
-  final String DeskripsiTanaman;
+  final String namePlant;
+  final String imagePlant;
+  final String descriptionPlant;
   const DetailTanaman(
       {Key? key,
-      required this.NamaTanaman,
-      required this.GambarTanaman,
-      required this.DeskripsiTanaman})
+      required this.namePlant,
+      required this.imagePlant,
+      required this.descriptionPlant})
       : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class DetailTanaman extends StatelessWidget {
         centerTitle: true,
         backgroundColor: AppColor.green,
         title: Text(
-          NamaTanaman,
+          namePlant,
           style: AppFont.judul,
         ),
       ),
@@ -34,10 +34,10 @@ class DetailTanaman extends StatelessWidget {
             Stack(
               children: [
                 ImageTanaman(
-                  GambarTanaman: GambarTanaman,
+                  imagePlant: imagePlant,
                 ),
                 TanamanDeskripsi(
-                  DeskripsiTanaman: DeskripsiTanaman,
+                  descriptionPlant: descriptionPlant,
                 ),
               ],
             ),
