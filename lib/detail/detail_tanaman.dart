@@ -41,7 +41,6 @@ class DetailTanaman extends StatelessWidget {
                 ),
               ],
             ),
-            const DetailButton(),
           ],
         ),
       ),

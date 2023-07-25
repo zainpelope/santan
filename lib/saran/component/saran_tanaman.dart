@@ -10,8 +10,8 @@ import '../../data/src/img_string.dart';
 import 'lihat_selengkapnya.dart';
 
 class SaranTanaman extends StatefulWidget {
-  const SaranTanaman({Key? key}) : super(key: key);
-
+  const SaranTanaman({Key? key,required this.saranTanaman}) : super(key: key);
+  final List<Plant> saranTanaman;
   @override
   State<SaranTanaman> createState() => _SaranTanamanState();
 }
@@ -22,18 +22,7 @@ class _SaranTanamanState extends State<SaranTanaman> {
   @override
   void initState() {
     super.initState();
-    _fetchPlants();
-  }
-
-  Future<void> _fetchPlants() async {
-    try {
-      List<Plant> plants = await ApiService.getAllPlant();
-      setState(() {
-        _plants = plants;
-      });
-    } catch (e) {
-      print('Error fetching plants: $e');
-    }
+    _plants = widget.saranTanaman;
   }
 
   @override

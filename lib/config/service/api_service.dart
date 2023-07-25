@@ -179,4 +179,28 @@ class ApiService {
       return false;
     }
   }
+
+  static Future<List<WeatherModel>> getWeathers() async {
+    const url = '$baseUrl/weathers';
+    final token = await PrefHelper.getToken();
+    final headers = {
+      'Authorization': token ?? '',
+    };
+    final response = await http.get(
+      Uri.parse(url),
+      headers: headers,
+    );
+    log('response ${response.body}');
+    List<WeatherModel> weatherList = [];
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      for (var item in data) {
+        WeatherModel weather = WeatherModel.fromJson(item);
+        weatherList.add(weather);
+      }
+    } else {
+      log('Invalid data format');
+    }
+    return weatherList;
+  }
 }

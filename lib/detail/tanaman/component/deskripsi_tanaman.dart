@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/config/theme/app_font.dart';
+import 'package:santan/detail/tanaman/component/detail_button.dart';
 import '../../../config/theme/app_dimen.dart';
 
 class TanamanDeskripsi extends StatelessWidget {
@@ -24,10 +25,10 @@ class TanamanDeskripsi extends StatelessWidget {
         color: AppColor.bg,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(
-            50,
+            20,
           ),
           topRight: Radius.circular(
-            50,
+            20,
           ),
         ),
       ),
@@ -36,10 +37,7 @@ class TanamanDeskripsi extends StatelessWidget {
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: AppDimen.h6,
-                  horizontal: AppDimen.w10,
-                ),
+                padding: const EdgeInsets.all(18),
                 child: Column(
                   children: [
                     Text(
@@ -52,6 +50,7 @@ class TanamanDeskripsi extends StatelessWidget {
               ),
             ),
           ),
+          const DetailButton(),
         ],
       ),
     );
