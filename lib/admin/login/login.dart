@@ -24,6 +24,19 @@ class _FormLoginState extends State<FormLogin> {
   bool _isChecked = false;
   bool _passwordVisible = false;
   final url = 'https://service.thengoding.com/users/login';
+  void _checkButtonStatus() {
+    setState(() {
+      _isChecked = _usernameController.text.isNotEmpty &&
+          _passwordController.text.isNotEmpty;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameController.addListener(_checkButtonStatus);
+    _passwordController.addListener(_checkButtonStatus);
+  }
 
   Future<void> _login() async {
     final username = _usernameController.text;
@@ -129,29 +142,12 @@ class _FormLoginState extends State<FormLogin> {
                     ),
                     obscureText: !_passwordVisible,
                   ),
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: _isChecked,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _isChecked = value!;
-                          });
-                        },
-                      ),
-                      Text(
-                        'Remember Login',
-                        style: AppFont.desc.copyWith(
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                    ],
-                  ),
+                  20.0.height,
                   AppButton(
                     text: 'Login',
                     onPressed: _isChecked ? _login : null,
-                    warna: AppColor.green,
-                    height: 45.0.h,
+                    warna: _isChecked ? AppColor.green : Colors.grey,
+                    height: 50.0.h,
                   ),
                 ],
               ),

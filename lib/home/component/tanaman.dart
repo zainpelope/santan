@@ -29,6 +29,10 @@ class _TanamanPageState extends State<TanamanPage> {
   Future<void> _fetchPlants() async {
     try {
       List<Plant> plants = await ApiService.getAllPlant();
+
+      // Mengurutkan daftar tanaman berdasarkan nama (ascending)
+      plants.sort((a, b) => a.name!.compareTo(b.name!));
+
       setState(() {
         _plants = plants;
       });
