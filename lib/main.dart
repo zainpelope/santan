@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
         return  MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Saran Tanaman',
-          //home: HomePage(),
           home: SplashScreenPage(),
         );
       },

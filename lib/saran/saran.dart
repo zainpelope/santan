@@ -10,22 +10,15 @@ import 'package:santan/saran/component/saran_button.dart';
 import 'package:santan/saran/component/saran_tanaman.dart';
 
 class SaranPage extends StatefulWidget {
-  final String city;
-  const SaranPage({super.key, required this.city});
+  const SaranPage({
+    super.key,
+  });
 
   @override
   State<SaranPage> createState() => _SaranPageState();
 }
 
 class _SaranPageState extends State<SaranPage> {
-  late Future<List<ModelCuaca>> _weatherData;
-
-  @override
-  void initState() {
-    super.initState();
-    _weatherData = ApiCuaca().fetchWeatherData(widget.city);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,139 +33,41 @@ class _SaranPageState extends State<SaranPage> {
       ),
       body: Column(
         children: [
-          FutureBuilder<List<ModelCuaca>>(
-            future: _weatherData,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final todayWeather = snapshot.data!.firstWhere(
-                  (weather) => _isToday(weather.time),
-                  orElse: () => ModelCuaca.empty(),
-                );
-
-                if (todayWeather != null) {
-                  final formattedDate = DateFormat('EEEE, dd MMMM yyyy')
-                      .format(todayWeather.time);
-
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(
-                          AppDimen.h12,
-                        ),
-                        margin: EdgeInsets.symmetric(
-                          horizontal: AppDimen.w16,
-                          vertical: AppDimen.h8,
-                        ),
-                        height: 120.0.h,
-                        width: double.infinity.w,
-                        decoration: BoxDecoration(
-                          color: AppColor.hari,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Hari",
-                                    style: AppFont.judul,
-                                  ),
-                                  Text(
-                                    "Tanggal",
-                                    style: AppFont.judul,
-                                  ),
-                                  Text(
-                                    "Cuaca",
-                                    style: AppFont.judul,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    ": ${todayWeather.day}",
-                                    style: AppFont.judul,
-                                  ),
-                                  Text(
-                                    ": ${todayWeather.date}",
-                                    style: AppFont.judul,
-                                  ),
-                                  Text(
-                                    ": ${todayWeather.getWeatherDescription()}",
-                                    style: AppFont.judul,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: AppDimen.w6,
-                        ),
-                        margin: EdgeInsets.symmetric(
-                          horizontal: AppDimen.h14,
-                        ),
-                        height: 50.0.h,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppColor.button,
-                          borderRadius: BorderRadius.circular(
-                            8,
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Prediksi Cuaca Selama 3 Bulan : ${todayWeather.getWeatherDescription()}",
-                              style: AppFont.lihat.copyWith(
-                                color: AppColor.teks,
-                              ),
-                            ),
-                            Text(
-                              "Maka disarankan Untuk Menanam",
-                              style: AppFont.lihat.copyWith(
-                                color: AppColor.teks,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  return Center(
-                    child: Text(
-                      'Periksa Koneksi Anda!',
-                      style: AppFont.hari.copyWith(
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  );
-                }
-              } else if (snapshot.hasError) {
-                return const Text(
-                  '',
-                );
-              } else {
-                return const CircularProgressIndicator(
-                  color: AppColor.hari,
-                );
-              }
-            },
+          Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppDimen.w6,
+            ),
+            margin: const EdgeInsets.only(
+              left: 14,
+              right: 14,
+              top: 6,
+            ),
+            height: 50.0.h,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: AppColor.button,
+              borderRadius: BorderRadius.circular(
+                8,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Prediksi Cuaca Selama 3 Bulan ",
+                  style: AppFont.lihat.copyWith(
+                    color: AppColor.teks,
+                  ),
+                ),
+                Text(
+                  "Maka disarankan Untuk Menanam",
+                  style: AppFont.lihat.copyWith(
+                    color: AppColor.teks,
+                  ),
+                ),
+              ],
+            ),
           ),
           const Expanded(
             child: SaranTanaman(),
@@ -181,12 +76,5 @@ class _SaranPageState extends State<SaranPage> {
         ],
       ),
     );
-  }
-
-  bool _isToday(DateTime date) {
-    final now = DateTime.now();
-    return date.year == now.year &&
-        date.month == now.month &&
-        date.day == now.day;
   }
 }

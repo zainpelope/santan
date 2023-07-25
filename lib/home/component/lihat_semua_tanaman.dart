@@ -3,7 +3,6 @@ import 'package:santan/config/theme/app_color.dart';
 import 'package:santan/config/theme/app_dimen.dart';
 import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/detail/detail_tanaman.dart';
-import 'package:santan/model/model_tanaman.dart';
 import '../../config/service/api_service.dart';
 import '../../models/tanaman/plant.dart';
 
@@ -15,6 +14,8 @@ class SemuaTanaman extends StatefulWidget {
 }
 
 class _SemuaTanamanState extends State<SemuaTanaman> {
+  bool _isSearchVisible = false;
+  String _searchQuery = '';
   List<Plant> _plants = [];
 
   @override
@@ -26,6 +27,15 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
   Future<void> _fetchPlants() async {
     try {
       List<Plant> plants = await ApiService.getAllPlant();
+      plants.sort((a, b) => a.name!.compareTo(b.name!));
+
+      if (_searchQuery.isNotEmpty) {
+        plants = plants
+            .where((plant) =>
+            plant.name!.toLowerCase().contains(_searchQuery.toLowerCase()))
+            .toList();
+      }
+
       setState(() {
         _plants = plants;
       });
@@ -34,18 +44,54 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
     }
   }
 
+  void _toggleSearchBarVisibility() {
+    setState(() {
+      _isSearchVisible = !_isSearchVisible;
+      if (!_isSearchVisible) {
+        // Clear the search query and show all plants again
+        _searchQuery = '';
+        _fetchPlants();
+      }
+    });
+  }
+
+  void _performSearch(String query) {
+    setState(() {
+      _searchQuery = query;
+      _fetchPlants();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    _plants.sort((a, b) => (a.name ?? '').compareTo(b.name ?? ''));
+
     return Scaffold(
       backgroundColor: AppColor.green,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: AppColor.green,
-        title: Text(
+        title: _isSearchVisible
+            ? TextField(
+          onChanged: _performSearch,
+          style: AppFont.judul,
+          decoration: InputDecoration(
+            hintText: 'Cari Tanaman...',
+            hintStyle: AppFont.pencarian,
+            border: InputBorder.none,
+          ),
+        )
+            : Text(
           "Semua Tanaman",
           style: AppFont.judul,
         ),
         elevation: 3,
+        actions: [
+          IconButton(
+            onPressed: _toggleSearchBarVisibility,
+            icon: Icon(_isSearchVisible ? Icons.cancel : Icons.search),
+          ),
+        ],
       ),
       body: FutureBuilder<List<Plant>>(
         future: ApiService.getAllPlant(),
@@ -66,7 +112,7 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
               ),
             );
           } else if (snapshot.hasData) {
-            final List<Plant> data = snapshot.data!;
+            final List<Plant> data = _plants;
             return GridView.builder(
               itemCount: data.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -85,8 +131,9 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
                               MaterialPageRoute(
                                 builder: (context) => DetailTanaman(
                                   namePlant: data[index].name ?? '',
-                                  imagePlant:data[index].image ?? '',
-                                  descriptionPlant: data[index].description ?? '',
+                                  imagePlant: data[index].image ?? '',
+                                  descriptionPlant:
+                                  data[index].description ?? '',
                                 ),
                               ),
                             );
@@ -102,7 +149,7 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
                             decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: NetworkImage(
-                                  data[index].image??'',
+                                  data[index].image ?? '',
                                 ),
                                 fit: BoxFit.cover,
                               ),
@@ -114,7 +161,7 @@ class _SemuaTanamanState extends State<SemuaTanaman> {
                         ),
                       ),
                       Text(
-                        data[index].name??"",
+                        data[index].name ?? "",
                         style: AppFont.hari,
                       ),
                       const SizedBox(height: 5.0),

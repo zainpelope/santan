@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:santan/config/theme/app_font.dart';
 
-
 class AppButton extends StatelessWidget {
   const AppButton(
       {Key? key,
       required this.text,
       required this.onPressed,
       required this.warna,
-      required this.height})
+      required this.height,
+      this.pri})
       : super(key: key);
   final String text;
   final Color warna;
   final double height;
+  final Color? pri;
 
   final Function()? onPressed;
 
@@ -24,6 +25,7 @@ class AppButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
+          primary: pri,
           backgroundColor: warna,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
