@@ -44,7 +44,8 @@ class TanamanDeskripsi extends StatelessWidget {
                   children: [
                     Text(
                       descriptionPlant,
-                      style: AppFont.desc,textAlign: TextAlign.justify,
+                      style: AppFont.kata,
+                      textAlign: TextAlign.justify,
                     ),
                   ],
                 ),
