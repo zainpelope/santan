@@ -6,9 +6,10 @@ import 'package:santan/config/theme/app_font.dart';
 import 'package:santan/detail/detail_tanaman.dart';
 import 'package:santan/home/component/lihat_semua_tanaman.dart';
 import 'package:santan/models/tanaman/plant.dart';
+import 'package:santan/admin/login/login.dart';
+import 'package:santan/config/service/api_service.dart';
+import '../../widget/search.dart';
 
-import '../../admin/login/login.dart';
-import '../../config/service/api_service.dart';
 
 class TanamanPage extends StatefulWidget {
   const TanamanPage({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class TanamanPage extends StatefulWidget {
 }
 
 class _TanamanPageState extends State<TanamanPage> {
+  String _searchQuery = '';
   List<Plant> _plants = [];
 
   @override
@@ -29,9 +31,14 @@ class _TanamanPageState extends State<TanamanPage> {
   Future<void> _fetchPlants() async {
     try {
       List<Plant> plants = await ApiService.getAllPlant();
-
-      // Mengurutkan daftar tanaman berdasarkan nama (ascending)
       plants.sort((a, b) => a.name!.compareTo(b.name!));
+
+      if (_searchQuery.isNotEmpty) {
+        plants = plants
+            .where((plant) =>
+            plant.name!.toLowerCase().contains(_searchQuery.toLowerCase()))
+            .toList();
+      }
 
       setState(() {
         _plants = plants;
@@ -54,25 +61,20 @@ class _TanamanPageState extends State<TanamanPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: AppColor.hari,
-                      hintText: 'Cari Tanaman',
-                      hintStyle: AppFont.pencarian,
-                      suffixIcon: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.search,
-                        ),
-                      ),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          15,
-                        ),
-                      ),
-                    ),
+                  child: PlantSearchForm(
+                    hintText: 'Cari Tanaman...',
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value;
+                        _fetchPlants();
+                      });
+                    },
+                    onClearPressed: () {
+                      setState(() {
+                        _searchQuery = '';
+                        _fetchPlants();
+                      });
+                    },
                   ),
                 ),
                 IconButton(
@@ -80,11 +82,11 @@ class _TanamanPageState extends State<TanamanPage> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FormLogin(),
+                        builder: (context) => const FormLogin(),
                       ),
                     );
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.person,
                     size: 30,
                   ),
@@ -122,7 +124,14 @@ class _TanamanPageState extends State<TanamanPage> {
           ),
           SizedBox(
             height: 345.0.h,
-            child: ListView.builder(
+            child: _plants.isEmpty
+                ? Center(
+              child: Text(
+                "Tanaman tidak ditemukan.",
+                style: AppFont.hari,
+              ),
+            )
+                : ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: _plants.length,
               itemBuilder: (context, index) {
@@ -190,5 +199,4 @@ class _TanamanPageState extends State<TanamanPage> {
       ),
     );
   }
-
 }
