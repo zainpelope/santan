@@ -25,10 +25,10 @@ class TanamanDeskripsi extends StatelessWidget {
         color: AppColor.bg,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(
-            20,
+            50,
           ),
           topRight: Radius.circular(
-            20,
+            50,
           ),
         ),
       ),

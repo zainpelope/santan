@@ -35,7 +35,7 @@ class LihatSelengkapnya extends StatelessWidget {
                       children: [
                         Text(
                           DeskripsiTanaman,
-                          style: AppFont.desc,
+                          style: AppFont.kata,
                           textAlign: TextAlign.justify,
                         ),
                       ],

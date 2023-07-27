@@ -77,7 +77,7 @@ class _FormLoginState extends State<FormLogin> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => MenuAdmin(),
+        builder: (context) => const MenuAdmin(),
       ),
     );
   }
@@ -184,7 +184,7 @@ class _FormLoginState extends State<FormLogin> {
                 ),
               ],
             ),
-            10.0.height,
+            15.0.height,
           ],
         ),
       ),

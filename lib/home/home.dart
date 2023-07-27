@@ -16,9 +16,9 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             //PlantPage(),
-            TanamanPage(),
+            const TanamanPage(),
             10.0.height,
-            CuacaPage(),
+            const CuacaPage(),
           ],
         ),
       ),
